@@ -5,5 +5,7 @@ data class Ingredient(
     val name: String,
     val quantity: Int,
     val unit: String,
-    val category: String
+    val category: String,
+
+    val expirationDateEpochDay: Long? = null
 )
