@@ -1,0 +1,26 @@
+package com.project.smartpantry.navigation
+
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.remember
+import androidx.navigation3.runtime.entryProvider
+import androidx.navigation3.ui.NavDisplay
+import com.project.smartpantry.ui.pantry.PantryRoute
+import com.project.smartpantry.ui.recipes.RecipesScreen
+
+@Composable
+fun SmartPantryApp() {
+    val backStack = remember { mutableStateListOf<AppDestination>(PantryDestination) }
+
+    NavDisplay(
+        backStack = backStack,
+        onBack = { backStack.removeLastOrNull() },
+        entryProvider = entryProvider {
+            entry<PantryDestination> {
+                PantryRoute(onRecipesClick = { backStack.add(RecipesDestination) })
+            }
+            entry<RecipesDestination> {
+                RecipesScreen(onBack = { backStack.removeLastOrNull() })
+            }
+        })
+}

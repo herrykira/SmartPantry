@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import com.project.smartpantry.ui.pantry.PantryRoute
+import com.project.smartpantry.navigation.SmartPantryApp
 import com.project.smartpantry.ui.theme.SmartPantryTheme
 
 class MainActivity : ComponentActivity() {
@@ -13,7 +13,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             SmartPantryTheme {
-                PantryRoute()
+                SmartPantryApp()
             }
         }
     }
