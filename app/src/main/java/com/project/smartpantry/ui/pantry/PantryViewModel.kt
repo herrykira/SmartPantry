@@ -4,11 +4,18 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.project.smartpantry.data.repository.PantryRepository
 import com.project.smartpantry.model.Ingredient
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlin.time.Duration.Companion.milliseconds
 
 class PantryViewModel(private val repository: PantryRepository) : ViewModel() {
 
@@ -22,13 +29,23 @@ class PantryViewModel(private val repository: PantryRepository) : ViewModel() {
         observeIngredients()
     }
 
+    @OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)
     private fun observeIngredients() {
         viewModelScope.launch {
-            repository.ingredients.collect { ingredients ->
-                _uiState.update { currentState ->
-                    currentState.copy(ingredients = ingredients)
+            _uiState
+                .map { state ->
+                    state.searchQuery
                 }
-            }
+                .debounce(300.milliseconds) // wait until the user pauses for about 300ms to avoid multiple unnecessary search
+                .distinctUntilChanged()  //avoid unnecessary search, if the searchQuery is the same
+                .flatMapLatest { query ->  // stop previous flow and switch to latest flow
+                    repository.observeIngredients(query = query)
+                }
+                .collect { ingredients ->
+                    _uiState.update { currentState ->
+                        currentState.copy(ingredients = ingredients)
+                    }
+                }
         }
     }
 

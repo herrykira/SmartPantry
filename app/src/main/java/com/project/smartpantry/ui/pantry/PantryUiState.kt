@@ -25,19 +25,6 @@ data class PantryUiState(
     val canSave: Boolean
         get() = name.isNotBlank() && isQuantityValid && unit.isNotBlank() && category.isNotBlank()
 
-    val filteredIngredients: List<Ingredient>
-        get() {
-            if (searchQuery.isBlank()) {
-                return ingredients
-            }
-            return ingredients.filter { ingredient ->
-                ingredient.name.contains(
-                    searchQuery,
-                    ignoreCase = true
-                ) || ingredient.category.contains(searchQuery, ignoreCase = true)
-            }
-        }
-
     val isEditing: Boolean
         get() = editingIngredientId != null
 }

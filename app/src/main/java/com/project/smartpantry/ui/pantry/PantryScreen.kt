@@ -2,6 +2,7 @@ package com.project.smartpantry.ui.pantry
 
 import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -20,6 +21,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
@@ -116,29 +118,41 @@ fun PantryScreen(
                 singleLine = true
             )
 
-            LazyColumn(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                contentPadding = PaddingValues(
-                    start = 16.dp,
-                    end = 16.dp,
-                    top = 4.dp,
-                    bottom = 88.dp
-                ),
-                verticalArrangement = Arrangement.spacedBy(10.dp)
-            ) {
-                items(
-                    items = uiState.filteredIngredients,
-                    key = { ingredient -> ingredient.id }) { ingredient -> // gives each item a stable identity, which becomes important when we later insert, delete, reorder, or animate items.
-                    IngredientCard(
-                        ingredient = ingredient,
-                        onClick = {
-                            onEditIngredient(ingredient)
-                            showAddDialog = true
-                            Log.d("PantryScreen", "Clicked: ${ingredient.name}")
-                        },
-                        onDelete = { onDeleteIngredient(ingredient.id) }
-                    )
+            if (uiState.ingredients.isEmpty() && uiState.searchQuery.isNotEmpty()) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .weight(1f),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(text = "No ingredients found for \"${uiState.searchQuery}\"")
+                }
+            } else {
+
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    contentPadding = PaddingValues(
+                        start = 16.dp,
+                        end = 16.dp,
+                        top = 4.dp,
+                        bottom = 88.dp
+                    ),
+                    verticalArrangement = Arrangement.spacedBy(10.dp)
+                ) {
+                    items(
+                        items = uiState.ingredients,
+                        key = { ingredient -> ingredient.id }) { ingredient -> // gives each item a stable identity, which becomes important when we later insert, delete, reorder, or animate items.
+                        IngredientCard(
+                            ingredient = ingredient,
+                            onClick = {
+                                onEditIngredient(ingredient)
+                                showAddDialog = true
+                                Log.d("PantryScreen", "Clicked: ${ingredient.name}")
+                            },
+                            onDelete = { onDeleteIngredient(ingredient.id) }
+                        )
+                    }
                 }
             }
         }

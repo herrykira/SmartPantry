@@ -11,8 +11,15 @@ import kotlinx.coroutines.flow.map
 //Hide Room from the viewModel
 //Convert database models
 class PantryRepository(private val ingredientDao: IngredientDao) {
-    val ingredients: Flow<List<Ingredient>> = ingredientDao.observeIngredients()
-        .map { entities -> entities.map { entity -> entity.toIngredient() } }
+
+    fun observeIngredients(query: String): Flow<List<Ingredient>> {
+        val source = if (query.isBlank()) {
+            ingredientDao.observeIngredients()
+        } else {
+            ingredientDao.searchIngredients(query = query.trim())
+        }
+        return source.map { entities -> entities.map { entity -> entity.toIngredient() } }
+    }
 
     suspend fun addIngredient(
         name: String,

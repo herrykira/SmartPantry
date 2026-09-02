@@ -32,4 +32,15 @@ interface IngredientDao {
 
     @Update
     suspend fun updateIngredient(ingredient: IngredientEntity)
+
+    @Query(
+        """
+            SELECT * 
+            FROM ingredients
+            WHERE name LIKE '%' || :query || '%'
+                OR category LIKE '%' ||:query || '%'
+            ORDER BY name ASC
+        """
+    )
+    fun searchIngredients(query: String): Flow<List<IngredientEntity>>
 }
