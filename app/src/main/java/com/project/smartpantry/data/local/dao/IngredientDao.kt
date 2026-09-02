@@ -43,4 +43,14 @@ interface IngredientDao {
         """
     )
     fun searchIngredients(query: String): Flow<List<IngredientEntity>>
+
+    @Query(
+        """
+        SELECT * 
+        FROM ingredients
+        WHERE id = :id
+        LIMIT 1
+    """
+    )
+    fun observeIngredient(id: Long): Flow<IngredientEntity?>  // row may not exist
 }

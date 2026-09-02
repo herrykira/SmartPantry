@@ -34,7 +34,7 @@ import com.project.smartpantry.model.Ingredient
 import com.project.smartpantry.ui.theme.SmartPantryTheme
 
 @Composable
-fun PantryRoute(onRecipesClick: () -> Unit) {
+fun PantryRoute(onRecipesClick: () -> Unit, onIngredientClick: (Long) -> Unit) {
     val context = LocalContext.current
 
     val application =
@@ -58,7 +58,8 @@ fun PantryRoute(onRecipesClick: () -> Unit) {
         onEditIngredient = viewModel::startEditingIngredient,
         onDeleteIngredient = viewModel::deleteIngredient,
         onResetForm = viewModel::resetForm,
-        onRecipesClick = onRecipesClick
+        onRecipesClick = onRecipesClick,
+        onIngredientClick = onIngredientClick
     )
 }
 
@@ -76,7 +77,8 @@ fun PantryScreen(
     onEditIngredient: (Ingredient) -> Unit,
     onDeleteIngredient: (Long) -> Unit,
     onResetForm: () -> Unit,
-    onRecipesClick: () -> Unit
+    onRecipesClick: () -> Unit,
+    onIngredientClick: (Long) -> Unit,
 ) {
     var showAddDialog by rememberSaveable { mutableStateOf(false) }
 
@@ -154,9 +156,12 @@ fun PantryScreen(
                         IngredientCard(
                             ingredient = ingredient,
                             onClick = {
+                                onIngredientClick(ingredient.id)
+                                Log.d("PantryScreen", "Clicked: ${ingredient.name}")
+                            },
+                            onEdit = {
                                 onEditIngredient(ingredient)
                                 showAddDialog = true
-                                Log.d("PantryScreen", "Clicked: ${ingredient.name}")
                             },
                             onDelete = { onDeleteIngredient(ingredient.id) }
                         )
@@ -237,8 +242,9 @@ private fun PantryScreenPreview() {
             onSaveIngredient = {},
             onEditIngredient = {},
             onDeleteIngredient = {},
+            onIngredientClick = {},
             onResetForm = {},
             onRecipesClick = {},
-            )
+        )
     }
 }

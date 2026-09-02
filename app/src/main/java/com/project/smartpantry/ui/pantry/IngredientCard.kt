@@ -25,6 +25,7 @@ import java.time.format.DateTimeFormatter
 fun IngredientCard(
     ingredient: Ingredient,
     onClick: () -> Unit,
+    onEdit:() -> Unit,
     onDelete: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -101,6 +102,9 @@ fun IngredientCard(
                     )
                 }
             }
+            TextButton(onClick = onEdit) {
+                Text("Edit")
+            }
             TextButton(onClick = onDelete) {
                 Text("Delete")
             }
@@ -121,6 +125,7 @@ private fun IngredientCardPreview() {
                 category = "Dairy & Eggs"
             ),
             onClick = {},
+            onEdit = {},
             onDelete = {}
         )
     }

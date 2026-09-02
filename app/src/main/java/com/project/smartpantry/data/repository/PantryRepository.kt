@@ -21,6 +21,10 @@ class PantryRepository(private val ingredientDao: IngredientDao) {
         return source.map { entities -> entities.map { entity -> entity.toIngredient() } }
     }
 
+    fun observeIngredient(id: Long): Flow<Ingredient?> {
+        return ingredientDao.observeIngredient(id = id).map { entity -> entity?.toIngredient() }
+    }
+
     suspend fun addIngredient(
         name: String,
         quantity: Int,
