@@ -1,8 +1,16 @@
 package com.project.smartpantry.navigation
 
-sealed interface AppDestination
+import androidx.navigation3.runtime.NavKey
+import kotlinx.serialization.Serializable
 
-data object PantryDestination: AppDestination
-data object RecipesDestination: AppDestination
+@Serializable
+sealed interface AppDestination : NavKey
 
+@Serializable
+data object PantryDestination : AppDestination
+
+@Serializable
+data object RecipesDestination : AppDestination
+
+@Serializable
 data class IngredientDetailDestination(val ingredientId: Long) : AppDestination

@@ -1,9 +1,8 @@
 package com.project.smartpantry.navigation
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.remember
 import androidx.navigation3.runtime.entryProvider
+import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.ui.NavDisplay
 import com.project.smartpantry.ui.IngredientDetailRoute
 import com.project.smartpantry.ui.pantry.PantryRoute
@@ -11,7 +10,8 @@ import com.project.smartpantry.ui.recipes.RecipesScreen
 
 @Composable
 fun SmartPantryApp() {
-    val backStack = remember { mutableStateListOf<AppDestination>(PantryDestination) }
+    // save and restore serializable navigation keys across configuration changes and Android process recreation
+    val backStack = rememberNavBackStack(PantryDestination)
 
     NavDisplay(
         backStack = backStack,
