@@ -34,7 +34,7 @@ import com.project.smartpantry.model.Ingredient
 import com.project.smartpantry.ui.theme.SmartPantryTheme
 
 @Composable
-fun PantryRoute(onRecipesClick: () -> Unit, onIngredientClick: (Long) -> Unit) {
+fun PantryRoute(onIngredientClick: (Long) -> Unit) {
     val context = LocalContext.current
 
     val application =
@@ -58,7 +58,6 @@ fun PantryRoute(onRecipesClick: () -> Unit, onIngredientClick: (Long) -> Unit) {
         onEditIngredient = viewModel::startEditingIngredient,
         onDeleteIngredient = viewModel::deleteIngredient,
         onResetForm = viewModel::resetForm,
-        onRecipesClick = onRecipesClick,
         onIngredientClick = onIngredientClick
     )
 }
@@ -77,7 +76,6 @@ fun PantryScreen(
     onEditIngredient: (Ingredient) -> Unit,
     onDeleteIngredient: (Long) -> Unit,
     onResetForm: () -> Unit,
-    onRecipesClick: () -> Unit,
     onIngredientClick: (Long) -> Unit,
 ) {
     var showAddDialog by rememberSaveable { mutableStateOf(false) }
@@ -91,11 +89,6 @@ fun PantryScreen(
             TopAppBar(
                 title = {
                     Text("My Pantry")
-                },
-                actions = {
-                    TextButton(onClick = onRecipesClick) {
-                        Text("Recipes")
-                    }
                 }
             )
         },
@@ -244,7 +237,6 @@ private fun PantryScreenPreview() {
             onDeleteIngredient = {},
             onIngredientClick = {},
             onResetForm = {},
-            onRecipesClick = {},
         )
     }
 }

@@ -65,4 +65,5 @@ dependencies {
     implementation(libs.androidx.navigation3.ui)
 
     implementation(libs.kotlinx.serialization.core)
+    implementation(libs.androidx.compose.material.icons.extended)
 }

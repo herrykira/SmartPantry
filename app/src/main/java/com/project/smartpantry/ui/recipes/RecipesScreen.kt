@@ -18,7 +18,7 @@ import com.project.smartpantry.ui.theme.SmartPantryTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RecipesScreen(onBack: () -> Unit) {
+fun RecipesScreen() {
     Scaffold(topBar = {
         TopAppBar(
             title = { Text("Recipes") }
@@ -33,10 +33,6 @@ fun RecipesScreen(onBack: () -> Unit) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(text = "Recipes will be added next.")
-
-            Button(onClick = onBack, modifier = Modifier.padding(top = 16.dp)) {
-                Text("Back to Pantry")
-            }
         }
 
     }
@@ -46,6 +42,6 @@ fun RecipesScreen(onBack: () -> Unit) {
 @Composable
 private fun RecipesScreenPreview() {
     SmartPantryTheme {
-        RecipesScreen(onBack = {})
+        RecipesScreen()
     }
 }
