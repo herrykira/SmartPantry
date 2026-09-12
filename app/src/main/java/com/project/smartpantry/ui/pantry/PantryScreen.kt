@@ -33,6 +33,8 @@ import com.project.smartpantry.SmartPantryApplication
 import com.project.smartpantry.model.Ingredient
 import com.project.smartpantry.ui.theme.SmartPantryTheme
 
+/*
+* Connect PantryViewModel to PantryScreen*/
 @Composable
 fun PantryRoute(onIngredientClick: (Long) -> Unit) {
     val context = LocalContext.current

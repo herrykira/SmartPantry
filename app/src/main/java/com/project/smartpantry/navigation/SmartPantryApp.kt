@@ -21,7 +21,7 @@ import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.ui.NavDisplay
 import com.project.smartpantry.ui.IngredientDetailRoute
 import com.project.smartpantry.ui.pantry.PantryRoute
-import com.project.smartpantry.ui.recipes.RecipesScreen
+import com.project.smartpantry.ui.recipes.RecipeRoute
 
 @Composable
 fun SmartPantryApp() {
@@ -68,7 +68,7 @@ fun SmartPantryApp() {
                     )
                 }
                 entry<RecipesDestination> {
-                    RecipesScreen()
+                    RecipeRoute()
                 }
 
                 entry<IngredientDetailDestination> { destination ->
