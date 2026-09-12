@@ -12,10 +12,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
-import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -74,17 +72,7 @@ fun RecipesScreen(
             is RecipesSearchState.Success -> {
                 LazyColumn(verticalArrangement = Arrangement.spacedBy(12.dp)) {
                     items(items = searchState.recipes, key = { it.id }) { recipe ->
-                        Card(modifier = Modifier.fillMaxWidth()) {
-                            Column(modifier = Modifier.padding(16.dp)) {
-                                Text(
-                                    text = recipe.name,
-                                    style = MaterialTheme.typography.titleMedium
-                                )
-
-                                recipe.category?.let { Text(it) }
-                                recipe.area?.let { Text(it) }
-                            }
-                        }
+                        RecipeCard(recipe = recipe)
                     }
                 }
             }
