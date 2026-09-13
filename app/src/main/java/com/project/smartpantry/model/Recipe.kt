@@ -6,5 +6,6 @@ data class Recipe(
     val category: String?,
     val area: String?,
     val thumbnailUrl: String?,
-    val instructions: String?
+    val instructions: String?,
+    val ingredients: List<RecipeIngredient> = emptyList()
 )

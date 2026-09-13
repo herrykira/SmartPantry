@@ -3,6 +3,7 @@ package com.project.smartpantry.ui.recipes.detail
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -19,8 +20,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
+import com.project.smartpantry.model.Recipe
+import com.project.smartpantry.model.RecipeIngredient
+import com.project.smartpantry.ui.theme.SmartPantryTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -82,6 +87,24 @@ fun RecipeDetailScreen(uiState: RecipeDetailsState, onBack: () -> Unit) {
                                 recipe.area?.let {
                                     Text(text = "Cuisine: $it")
                                 }
+                                if (recipe.ingredients.isNotEmpty()) {
+                                    Text(
+                                        text = "Ingredients",
+                                        style = MaterialTheme.typography.titleMedium
+                                    )
+                                    recipe.ingredients.forEach { ingredient ->
+                                        Row(
+                                            modifier = Modifier.fillMaxWidth(),
+                                            horizontalArrangement = Arrangement.spacedBy(16.dp)
+                                        ) {
+                                            Text(
+                                                text = ingredient.name,
+                                                modifier = Modifier.weight(1f)
+                                            )
+                                            Text(text = ingredient.measure)
+                                        }
+                                    }
+                                }
                                 recipe.instructions?.let {
                                     Text(
                                         text = "Instructions",
@@ -95,5 +118,24 @@ fun RecipeDetailScreen(uiState: RecipeDetailsState, onBack: () -> Unit) {
                 }
             }
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun RecipeDetailScreenPreview() {
+    SmartPantryTheme {
+        RecipeDetailScreen(
+            uiState = RecipeDetailsState.Success(
+                recipe = Recipe(
+                    id = "1",
+                    name = "chicken",
+                    category = "food",
+                    area = "Chinese",
+                    thumbnailUrl = null,
+                    instructions = "",
+                    ingredients = listOf(RecipeIngredient("egg", "500g"))
+                )
+            ), onBack = {})
     }
 }
