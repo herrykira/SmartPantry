@@ -22,6 +22,7 @@ import androidx.navigation3.ui.NavDisplay
 import com.project.smartpantry.ui.IngredientDetailRoute
 import com.project.smartpantry.ui.pantry.PantryRoute
 import com.project.smartpantry.ui.recipes.RecipeRoute
+import com.project.smartpantry.ui.recipes.detail.RecipeDetailRoute
 
 @Composable
 fun SmartPantryApp() {
@@ -68,7 +69,15 @@ fun SmartPantryApp() {
                     )
                 }
                 entry<RecipesDestination> {
-                    RecipeRoute()
+                    RecipeRoute(onRecipeClick = { recipeId ->
+                        receiptsBackStack.add(RecipeDetailDestination(recipeId = recipeId))
+                    })
+                }
+
+                entry<RecipeDetailDestination> { destination ->
+                    RecipeDetailRoute(
+                        recipeId = destination.recipeId,
+                        onBack = { receiptsBackStack.removeLastOrNull() })
                 }
 
                 entry<IngredientDetailDestination> { destination ->

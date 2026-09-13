@@ -21,8 +21,8 @@ import com.project.smartpantry.model.Recipe
 import com.project.smartpantry.ui.theme.SmartPantryTheme
 
 @Composable
-fun RecipeCard(recipe: Recipe, modifier: Modifier = Modifier) {
-    Card(modifier = modifier.fillMaxWidth()) {
+fun RecipeCard(recipe: Recipe, onClick: () -> Unit, modifier: Modifier = Modifier) {
+    Card(onClick = onClick, modifier = modifier.fillMaxWidth()) {
         Column {
             if (recipe.thumbnailUrl != null) {
                 // Coil automatically uses caching, so already-loaded images generally don't need to be fully downloaded and decoded from scratch every time.
@@ -80,7 +80,8 @@ private fun RecipeCardPreview() {
                 area = "Chinese",
                 thumbnailUrl = null,
                 instructions = null
-            )
+            ),
+            onClick = {}
         )
     }
 }

@@ -10,7 +10,7 @@ import com.project.smartpantry.SmartPantryApplication
 /*
 * connect RecipesViewModel to RecipesScreen*/
 @Composable
-fun RecipeRoute() {
+fun RecipeRoute(onRecipeClick: (String) -> Unit) {
     val context = LocalContext.current
     val application = context.applicationContext as SmartPantryApplication
     val viewModel: RecipesViewModel =
@@ -20,6 +20,7 @@ fun RecipeRoute() {
     RecipesScreen(
         uiState = uiState,
         onSearchQueryChange = viewModel::onSearchQueryChange,
-        onSearch = viewModel::searchRecipes
+        onSearch = viewModel::searchRecipes,
+        onRecipeClick = onRecipeClick
     )
 }

@@ -9,4 +9,11 @@ class RecipeRepository(private val apiService: MealApiService) {
         val response = apiService.searchMeals(query = query)
         return response.meals.orEmpty().map { mealDto -> mealDto.toRecipe() }
     }
+
+    /*
+    * invalid id -> no meal*/
+    suspend fun getRecipe(id: String): Recipe? {
+        val response = apiService.getMealById(id = id)
+        return response.meals.orEmpty().firstOrNull()?.toRecipe()
+    }
 }

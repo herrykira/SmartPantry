@@ -14,3 +14,6 @@ data object RecipesDestination : AppDestination
 
 @Serializable
 data class IngredientDetailDestination(val ingredientId: Long) : AppDestination
+
+@Serializable
+data class RecipeDetailDestination(val recipeId: String) : AppDestination

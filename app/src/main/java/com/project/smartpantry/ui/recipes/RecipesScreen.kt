@@ -28,7 +28,8 @@ import com.project.smartpantry.ui.theme.SmartPantryTheme
 fun RecipesScreen(
     uiState: RecipeUiState,
     onSearchQueryChange: (String) -> Unit,
-    onSearch: () -> Unit
+    onSearch: () -> Unit,
+    onRecipeClick: (String) -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -72,7 +73,7 @@ fun RecipesScreen(
             is RecipesSearchState.Success -> {
                 LazyColumn(verticalArrangement = Arrangement.spacedBy(12.dp)) {
                     items(items = searchState.recipes, key = { it.id }) { recipe ->
-                        RecipeCard(recipe = recipe)
+                        RecipeCard(recipe = recipe, onClick = { onRecipeClick(recipe.id) })
                     }
                 }
             }
@@ -84,6 +85,10 @@ fun RecipesScreen(
 @Composable
 private fun RecipesScreenPreview() {
     SmartPantryTheme {
-        RecipesScreen(uiState = RecipeUiState(), onSearchQueryChange = {}, onSearch = {})
+        RecipesScreen(
+            uiState = RecipeUiState(),
+            onSearchQueryChange = {},
+            onSearch = {},
+            onRecipeClick = {})
     }
 }
