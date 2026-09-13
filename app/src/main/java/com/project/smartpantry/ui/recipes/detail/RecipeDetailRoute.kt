@@ -13,11 +13,13 @@ fun RecipeDetailRoute(recipeId: String, onBack: () -> Unit) {
     val context = LocalContext.current
     val application = context.applicationContext as SmartPantryApplication
     val recipeRepository = application.recipeRepository
+    val pantryRepository = application.pantryRepository
     val recipeDetailsViewModel: RecipeDetailViewModel = viewModel(
         key = "recipe_detail$recipeId",  // different recipe IDs should get different detail viewModel instances.
         factory = RecipeDetailViewModelFactory(
             recipeId = recipeId,
-            recipeRepository = recipeRepository
+            recipeRepository = recipeRepository,
+            pantryRepository = pantryRepository
         )
     )
     val uiState by recipeDetailsViewModel.uiState.collectAsStateWithLifecycle()

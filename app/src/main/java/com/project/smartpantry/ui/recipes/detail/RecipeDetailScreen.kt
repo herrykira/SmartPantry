@@ -87,21 +87,42 @@ fun RecipeDetailScreen(uiState: RecipeDetailsState, onBack: () -> Unit) {
                                 recipe.area?.let {
                                     Text(text = "Cuisine: $it")
                                 }
+                                val availableCount = uiState.ingredients.count { it.isInPantry }
+                                val totalCount = uiState.ingredients.size
+
+                                Text(
+                                    text = "$availableCount of $totalCount ingredients in pantry",
+                                    style = MaterialTheme.typography.bodyMedium
+                                )
+
                                 if (recipe.ingredients.isNotEmpty()) {
                                     Text(
                                         text = "Ingredients",
                                         style = MaterialTheme.typography.titleMedium
                                     )
-                                    recipe.ingredients.forEach { ingredient ->
+                                    uiState.ingredients.forEach { availability ->
+                                        val ingredient = availability.ingredient
                                         Row(
                                             modifier = Modifier.fillMaxWidth(),
-                                            horizontalArrangement = Arrangement.spacedBy(16.dp)
+                                            horizontalArrangement = Arrangement.SpaceBetween,
+                                            verticalAlignment = Alignment.CenterVertically
                                         ) {
+                                            Column(modifier = Modifier.weight(1f)) {
+                                                Text(text = ingredient.name)
+                                                if (ingredient.measure.isNotBlank()) {
+                                                    Text(
+                                                        text = ingredient.measure,
+                                                        style = MaterialTheme.typography.bodySmall
+                                                    )
+                                                }
+                                            }
                                             Text(
-                                                text = ingredient.name,
-                                                modifier = Modifier.weight(1f)
+                                                text = if (availability.isInPantry) {
+                                                    "✓ In pantry"
+                                                } else {
+                                                    "Missing"
+                                                }
                                             )
-                                            Text(text = ingredient.measure)
                                         }
                                     }
                                 }
@@ -135,6 +156,12 @@ private fun RecipeDetailScreenPreview() {
                     thumbnailUrl = null,
                     instructions = "",
                     ingredients = listOf(RecipeIngredient("egg", "500g"))
+                ),
+                ingredients = listOf(
+                    RecipeIngredientAvailability(
+                        RecipeIngredient("egg", "500g"),
+                        isInPantry = true
+                    )
                 )
             ), onBack = {})
     }

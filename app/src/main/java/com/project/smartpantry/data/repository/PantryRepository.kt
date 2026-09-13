@@ -51,4 +51,9 @@ class PantryRepository(private val ingredientDao: IngredientDao) {
     suspend fun updateIngredient(ingredient: Ingredient) {
         ingredientDao.updateIngredient(ingredient = ingredient.toIngredientEntity())
     }
+
+    fun observeAllIngredients(): Flow<List<Ingredient>> {
+        return ingredientDao.observeIngredients()
+            .map { entities -> entities.map { entity -> entity.toIngredient() } }
+    }
 }
