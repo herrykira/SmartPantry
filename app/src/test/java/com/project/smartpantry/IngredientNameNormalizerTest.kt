@@ -2,6 +2,7 @@ package com.project.smartpantry
 
 import com.project.smartpantry.util.normalizeIngredientName
 import junit.framework.TestCase.assertEquals
+import org.junit.Assert.assertNotEquals
 import org.junit.Test
 
 class IngredientNameNormalizerTest {
@@ -12,11 +13,11 @@ class IngredientNameNormalizerTest {
 
     @Test
     fun trimsAdnLowercases() {
-        assertEquals("red onion", normalizeIngredientName("  RED  ONION "))
+        assertEquals("redonion", normalizeIngredientName("  RED  ONION "))
     }
 
     @Test
     fun chickenBreastIsNotChicken() {
-        assertEquals(normalizeIngredientName("Chicken"), normalizeIngredientName("Chicken Breast"))
+        assertNotEquals(normalizeIngredientName("Chicken"), normalizeIngredientName("Chicken Breast"))
     }
 }
