@@ -7,10 +7,11 @@ import com.project.smartpantry.data.mapper.toIngredientEntity
 import com.project.smartpantry.model.Ingredient
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
 
 //Hide Room from the viewModel
 //Convert database models
-class PantryRepository(private val ingredientDao: IngredientDao) {
+class PantryRepository @Inject constructor(private val ingredientDao: IngredientDao) {
 
     fun observeIngredients(query: String): Flow<List<Ingredient>> {
         val source = if (query.isBlank()) {

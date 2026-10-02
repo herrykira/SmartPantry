@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.project.smartpantry.data.repository.PantryRepository
 import com.project.smartpantry.model.Ingredient
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,9 +16,11 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 import kotlin.time.Duration.Companion.milliseconds
 
-class PantryViewModel(private val repository: PantryRepository) : ViewModel() {
+@HiltViewModel
+class PantryViewModel @Inject constructor(private val repository: PantryRepository) : ViewModel() {
 
     private val _uiState = MutableStateFlow(
         PantryUiState()

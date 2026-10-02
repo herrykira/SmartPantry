@@ -15,7 +15,6 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -24,12 +23,10 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.project.smartpantry.SmartPantryApplication
 import com.project.smartpantry.model.Ingredient
 import com.project.smartpantry.ui.theme.SmartPantryTheme
 
@@ -37,16 +34,8 @@ import com.project.smartpantry.ui.theme.SmartPantryTheme
 * Connect PantryViewModel to PantryScreen*/
 @Composable
 fun PantryRoute(onIngredientClick: (Long) -> Unit) {
-    val context = LocalContext.current
 
-    val application =
-        context.applicationContext as SmartPantryApplication
-
-    val viewModel: PantryViewModel = viewModel(
-        factory = PantryViewModelFactory(
-            repository = application.pantryRepository
-        )
-    )
+    val viewModel: PantryViewModel = hiltViewModel()
     val uiState by viewModel.uiState.collectAsStateWithLifecycle() //ViewModel exposes StateFlow, but Compose renders using Compose State
     PantryScreen(
         uiState = uiState,

@@ -3,6 +3,7 @@ package com.project.smartpantry.ui.recipes
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.project.smartpantry.SmartPantryApplication
@@ -11,10 +12,8 @@ import com.project.smartpantry.SmartPantryApplication
 * connect RecipesViewModel to RecipesScreen*/
 @Composable
 fun RecipeRoute(onRecipeClick: (String) -> Unit) {
-    val context = LocalContext.current
-    val application = context.applicationContext as SmartPantryApplication
-    val viewModel: RecipesViewModel =
-        viewModel(factory = RecipesViewModelFactory(repository = application.recipeRepository))
+
+    val viewModel: RecipesViewModel = hiltViewModel()
 
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     RecipesScreen(
