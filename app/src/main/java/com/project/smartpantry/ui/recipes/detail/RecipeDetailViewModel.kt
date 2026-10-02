@@ -6,15 +6,27 @@ import com.project.smartpantry.data.repository.PantryRepository
 import com.project.smartpantry.data.repository.RecipeRepository
 import com.project.smartpantry.model.Recipe
 import com.project.smartpantry.util.normalizeIngredientName
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class RecipeDetailViewModel(
+/*assisted injection because of runtime navigation arguments*/
+@HiltViewModel(assistedFactory = RecipeDetailViewModel.Factory::class)
+class RecipeDetailViewModel @AssistedInject constructor(
+    @Assisted
     private val recipeId: String,
     private val recipeRepository: RecipeRepository,
     private val pantryRepository: PantryRepository
 ) : ViewModel() {
+    @AssistedFactory
+    interface Factory {
+        fun create(recipeId: String): RecipeDetailViewModel
+    }
+
     private val _uiState = MutableStateFlow<RecipeDetailsState>(RecipeDetailsState.Loading)
     val uiState = _uiState.asStateFlow()
 
@@ -47,7 +59,9 @@ class RecipeDetailViewModel(
                 RecipeIngredientAvailability(
                     ingredient = recipeIngredient,
                     isInPantry = pantryIngredients.any { pantryIngredient ->
-                        normalizeIngredientName(pantryIngredient.name) == normalizeIngredientName(recipeIngredient.name)
+                        normalizeIngredientName(pantryIngredient.name) == normalizeIngredientName(
+                            recipeIngredient.name
+                        )
                     })
             }
             _uiState.value = RecipeDetailsState.Success(recipe = recipe, ingredients = availability)

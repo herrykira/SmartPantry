@@ -16,10 +16,12 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
+import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
-import com.project.smartpantry.ui.IngredientDetailRoute
+import com.project.smartpantry.ui.ingredientdetail.IngredientDetailRoute
 import com.project.smartpantry.ui.pantry.PantryRoute
 import com.project.smartpantry.ui.recipes.RecipeRoute
 import com.project.smartpantry.ui.recipes.detail.RecipeDetailRoute
@@ -55,6 +57,10 @@ fun SmartPantryApp() {
         NavDisplay(
             backStack = currentBackStack,
             modifier = Modifier.padding(innerPadding),
+            entryDecorators = listOf(
+                rememberSaveableStateHolderNavEntryDecorator(), // preserves Compose saveable state for each navigation entry
+                rememberViewModelStoreNavEntryDecorator()  // gives each NavEntry its own viewModelStoreOwner
+            ),
             onBack = { currentBackStack.removeLastOrNull() },
             entryProvider = entryProvider {
                 entry<PantryDestination> {
