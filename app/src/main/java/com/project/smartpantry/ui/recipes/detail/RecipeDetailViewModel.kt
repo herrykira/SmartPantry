@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.project.smartpantry.data.repository.PantryRepository
 import com.project.smartpantry.data.repository.RecipeRepository
 import com.project.smartpantry.model.Recipe
+import com.project.smartpantry.util.normalizeIngredientName
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -46,8 +47,7 @@ class RecipeDetailViewModel(
                 RecipeIngredientAvailability(
                     ingredient = recipeIngredient,
                     isInPantry = pantryIngredients.any { pantryIngredient ->
-                        pantryIngredient.name.trim()
-                            .equals(recipeIngredient.name.trim(), ignoreCase = true)
+                        normalizeIngredientName(pantryIngredient.name) == normalizeIngredientName(recipeIngredient.name)
                     })
             }
             _uiState.value = RecipeDetailsState.Success(recipe = recipe, ingredients = availability)
