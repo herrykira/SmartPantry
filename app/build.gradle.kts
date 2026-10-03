@@ -82,4 +82,8 @@ dependencies {
     implementation(
         libs.androidx.hilt.lifecycle.viewmodel.compose
     )
+
+    testImplementation(
+        libs.kotlinx.coroutines.test
+    )
 }
